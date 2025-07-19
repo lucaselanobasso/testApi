@@ -25,5 +25,30 @@ describe('Login', () => {
         })
       expect(response.status).to.equal(401);
     })
+    it("ao realizar 3 tentativas, deve retornar 423 com o bloqueio da senha", async () => {
+      const url = 'http://localhost:3000'
+      const loginPayload = {
+          'username': 'admin',
+          'password': 'senhaerrada'
+        }
+      const tentarLogin = async () =>{
+        return await request(url)
+        .post('/api/login')
+        .set('Content-Type', 'application/json')
+        .send(loginPayload)
+      }
+
+      const res1 = await tentarLogin();
+      expect(res1.status).to.equal(401)
+
+      const res2 = await tentarLogin();
+      expect(res2.status).to.equal(401);
+
+      const res3 = await tentarLogin();
+      expect(res3.status).to.equal(423);
+
+      const res4 = await tentarLogin();
+      expect(res4.status).to.equal(423);
+    })
   })
 })
