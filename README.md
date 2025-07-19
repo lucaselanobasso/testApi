@@ -14,9 +14,8 @@ Esta API foi criada especificamente para estudos de teste de software, incluindo
 
 ### ✅ Login
 - Autenticação com username e senha
-- Validação de formato de email
 - Geração de token de acesso
-- Controle de tentativas de login
+- Controle de tentativas de login por username
 
 ### 🔒 Bloqueio de Conta
 - Após 3 tentativas falhadas, a conta é bloqueada
@@ -24,9 +23,9 @@ Esta API foi criada especificamente para estudos de teste de software, incluindo
 - Desbloqueio automático ao usar "Esqueci minha senha"
 
 ### 📧 Recuperação de Senha
-- Endpoint para solicitar redefinição de senha
-- Desbloqueia automaticamente a conta
-- Simulação de envio de email
+- Endpoint que recebe email e busca o usuário correspondente
+- Desbloqueia automaticamente a conta (reseta tentativas do username)
+- Simulação de envio de email de recuperação
 
 ### 🧪 Endpoint para Testes
 - Reset de tentativas de login para facilitar testes
@@ -99,29 +98,36 @@ http://localhost:3000/api-docs
 
 ## 👥 Usuários de Teste
 
-A API vem com dois usuários pré-configurados:
+A API vem com três usuários pré-configurados:
 
-| Email | Senha | Nome |
-|-------|-------|------|
-| `usuario@teste.com` | `senha123` | Usuário Teste |
-| `admin@teste.com` | `admin123` | Administrador |
+| Username | Email | Senha | Nome |
+|----------|-------|-------|------|
+| `usuario` | `usuario@teste.com` | `senha123` | Usuário Teste |
+| `admin` | `admin@teste.com` | `admin123` | Administrador |
+| `marcelo.salmeron` | `marcelo.salmeron@teste.com` | `123456` | Marcelo Salmeron |
 
 ## 🔄 Fluxo de Funcionamento
 
+### 🔑 Importante: Username vs Email
+- **Login:** Usa `username` + `password`
+- **Forgot Password:** Usa `email` (busca o usuário e reseta tentativas do `username`)
+- **Reset Attempts:** Usa `email` (busca o usuário e reseta tentativas do `username`)
+- **Controle de tentativas:** Armazenado por `username`
+
 ### Login Bem-sucedido
-1. Envie email e senha válidos
+1. Envie username e senha válidos
 2. Receba token de acesso
 3. Contador de tentativas é resetado
 
 ### Login Falhado
-1. Envie credenciais inválidas
+1. Envie credenciais inválidas (username/senha)
 2. Receba mensagem de erro
-3. Contador de tentativas é incrementado
+3. Contador de tentativas é incrementado por username
 4. Após 3 tentativas, conta é bloqueada
 
 ### Conta Bloqueada
 1. Tentativas de login retornam status 423
-2. Use "Esqueci minha senha" para desbloquear
+2. Use "Esqueci minha senha" com email para desbloquear
 3. Conta é automaticamente desbloqueada
 
 ## 📊 Códigos de Status HTTP
@@ -141,14 +147,14 @@ A API vem com dois usuários pré-configurados:
 ```bash
 curl -X POST http://localhost:3000/api/login \
   -H "Content-Type: application/json" \
-  -d '{"email": "usuario@teste.com", "password": "senha123"}'
+  -d '{"username": "marcelo.salmeron", "password": "123456"}'
 ```
 
 ### Teste 2: Login Inválido
 ```bash
 curl -X POST http://localhost:3000/api/login \
   -H "Content-Type: application/json" \
-  -d '{"email": "usuario@teste.com", "password": "senhaerrada"}'
+  -d '{"username": "usuario", "password": "senhaerrada"}'
 ```
 
 ### Teste 3: Bloqueio de Conta
@@ -172,13 +178,15 @@ curl -X POST http://localhost:3000/api/reset-attempts \
 
 ```
 testApi/
-├── server.js              # Servidor principal
+├── server.js              # Servidor principal + configuração Swagger
 ├── package.json           # Dependências e scripts
 ├── README.md             # Documentação
 ├── routes/
-│   └── loginRoutes.js    # Rotas da API
-└── controllers/
-    └── loginController.js # Lógica de negócio
+│   └── loginRoutes.js    # Rotas da API + documentação Swagger
+├── controllers/
+│   └── loginController.js # Lógica de negócio
+└── test/
+    └── login.test.js     # Testes automatizados
 ```
 
 ## 🔧 Tecnologias Utilizadas

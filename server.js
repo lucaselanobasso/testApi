@@ -82,12 +82,13 @@ const swaggerOptions = {
         ForgotPasswordRequest: {
           type: 'object',
           properties: {
-            username: {
+            email: {
               type: 'string',
-              description: 'Username do usuário'
+              format: 'email',
+              description: 'Email do usuário para recuperação de senha'
             }
           },
-          required: ['username']
+          required: ['email']
         },
         ForgotPasswordResponse: {
           type: 'object',

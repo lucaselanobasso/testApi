@@ -47,6 +47,17 @@ function isValidLogin(login) {
 }
 
 /**
+ * Valida se um email tem formato válido
+ * @param {string} email - Email a ser validado
+ * @returns {boolean} True se válido, false caso contrário
+ */
+function isValidEmail(email) {
+  // Regex simples para validação de email
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email);
+}
+
+/**
  * Realiza o login do usuário
  * @param {Object} req - Request object
  * @param {Object} res - Response object
@@ -155,7 +166,7 @@ const forgotPassword = (req, res) => {
       });
     }
 
-    // Busca o usuário
+    // Busca o usuário pelo email para obter o username correspondente
     const user = users.find(u => u.email === email);
 
     if (!user) {
@@ -166,16 +177,19 @@ const forgotPassword = (req, res) => {
     }
 
     // Reseta as tentativas de login (desbloqueia a conta)
-    loginAttempts.delete(email);
+    // Agora usando o username do usuário encontrado pelo email
+    loginAttempts.delete(user.username);
 
     // Em um cenário real, aqui seria enviado um email
     // Para fins de teste, apenas simulamos o envio
     console.log(`Email de recuperação enviado para: ${email}`);
+    console.log(`Username correspondente: ${user.username}`);
     console.log(`Nova senha temporária: temp_${Math.random().toString(36).substr(2, 6)}`);
 
     return res.status(200).json({
       success: true,
-      message: 'Email de recuperação enviado com sucesso. Verifique sua caixa de entrada.'
+      message: 'Email de recuperação enviado com sucesso. Verifique sua caixa de entrada.',
+      username: user.username // Opcional: retornar o username para debug
     });
 
   } catch (error) {
@@ -223,7 +237,8 @@ const resetAttempts = (req, res) => {
     }
 
     // Reseta as tentativas
-    loginAttempts.delete(email);
+    // As tentativas são armazenadas por username, então precisamos usar o username do usuário encontrado
+    loginAttempts.delete(user.username);
 
     return res.status(200).json({
       success: true,
