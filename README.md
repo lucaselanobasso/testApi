@@ -13,7 +13,7 @@ Esta API foi criada especificamente para estudos de teste de software, incluindo
 ## 🚀 Funcionalidades
 
 ### ✅ Login
-- Autenticação com email e senha
+- Autenticação com username e senha
 - Validação de formato de email
 - Geração de token de acesso
 - Controle de tentativas de login
@@ -74,8 +74,8 @@ http://localhost:3000/api-docs
 - **Body:**
 ```json
 {
-  "email": "usuario@teste.com",
-  "password": "senha123"
+  "username": "marcelo.salmeron",
+  "password": "123456"
 }
 ```
 

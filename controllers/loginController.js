@@ -3,17 +3,20 @@ const users = [
   {
     username: 'usuario',
     password: 'senha123',
-    name: 'Usuário Teste'
+    name: 'Usuário Teste',
+    email: 'usuario@teste.com'
   },
   {
     username: 'admin',
     password: 'admin123',
-    name: 'Administrador'
+    name: 'Administrador',
+    email: 'admin@teste.com'
   },
   {
-    username: 'julio.lima',
+    username: 'marcelo.salmeron',
     password: '123456',
-    name: 'Júlio Lima'
+    name: 'Marcelo Salmeron',
+    email: 'marcelo.salmeron@teste.com'
   }
 ];
 
