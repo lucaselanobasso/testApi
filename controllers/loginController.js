@@ -1,4 +1,3 @@
-// Dados em memória para simular um banco de dados
 const users = [
   {
     username: 'usuario',
@@ -20,10 +19,8 @@ const users = [
   }
 ];
 
-// Controle de tentativas de login por email
 const loginAttempts = new Map();
 
-// Tokens gerados (em produção, seria um JWT real)
 const activeTokens = new Set();
 
 /**
@@ -42,7 +39,6 @@ function generateToken() {
  * @returns {boolean} True se válido, false caso contrário
  */
 function isValidLogin(login) {
-  // Aceita qualquer string não vazia como login
   return login && login.trim().length > 0;
 }
 
@@ -52,7 +48,6 @@ function isValidLogin(login) {
  * @returns {boolean} True se válido, false caso contrário
  */
 function isValidEmail(email) {
-  // Regex simples para validação de email
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   return emailRegex.test(email);
 }
@@ -66,7 +61,6 @@ const login = (req, res) => {
   try {
     const { username, password } = req.body;
 
-    // Validação dos campos obrigatórios
     if (!username || !password) {
       return res.status(400).json({
         success: false,
@@ -74,7 +68,6 @@ const login = (req, res) => {
       });
     }
 
-    // Validação do formato do username
     if (!isValidLogin(username)) {
       return res.status(400).json({
         success: false,
@@ -82,7 +75,6 @@ const login = (req, res) => {
       });
     }
 
-    // Verifica se a conta está bloqueada
     const attempts = loginAttempts.get(username) || 0;
     if (attempts >= 3) {
       return res.status(423).json({
@@ -91,17 +83,15 @@ const login = (req, res) => {
       });
     }
 
-    // Busca o usuário
     const user = users.find(u => u.username === username);
 
-    // Verifica se o usuário existe e a senha está correta
     if (!user || user.password !== password) {
       // Incrementa o contador de tentativas
       const newAttempts = attempts + 1;
       loginAttempts.set(username, newAttempts);
-      
+
       const attemptsLeft = 3 - newAttempts;
-      
+
       if (attemptsLeft > 0) {
         return res.status(401).json({
           success: false,
@@ -116,10 +106,8 @@ const login = (req, res) => {
       }
     }
 
-    // Login bem-sucedido - reseta as tentativas
     loginAttempts.delete(username);
-    
-    // Gera token
+
     const token = generateToken();
 
     return res.status(200).json({
@@ -158,7 +146,6 @@ const forgotPassword = (req, res) => {
       });
     }
 
-    // Validação do formato do email
     if (!isValidEmail(email)) {
       return res.status(400).json({
         success: false,
@@ -166,7 +153,6 @@ const forgotPassword = (req, res) => {
       });
     }
 
-    // Busca o usuário pelo email para obter o username correspondente
     const user = users.find(u => u.email === email);
 
     if (!user) {
@@ -176,12 +162,10 @@ const forgotPassword = (req, res) => {
       });
     }
 
-    // Reseta as tentativas de login (desbloqueia a conta)
-    // Agora usando o username do usuário encontrado pelo email
+
     loginAttempts.delete(user.username);
 
-    // Em um cenário real, aqui seria enviado um email
-    // Para fins de teste, apenas simulamos o envio
+
     console.log(`Email de recuperação enviado para: ${email}`);
     console.log(`Username correspondente: ${user.username}`);
     console.log(`Nova senha temporária: temp_${Math.random().toString(36).substr(2, 6)}`);
@@ -189,7 +173,7 @@ const forgotPassword = (req, res) => {
     return res.status(200).json({
       success: true,
       message: 'Email de recuperação enviado com sucesso. Verifique sua caixa de entrada.',
-      username: user.username // Opcional: retornar o username para debug
+      username: user.username
     });
 
   } catch (error) {
@@ -218,7 +202,6 @@ const resetAttempts = (req, res) => {
       });
     }
 
-    // Validação do formato do email
     if (!isValidEmail(email)) {
       return res.status(400).json({
         success: false,
@@ -226,7 +209,6 @@ const resetAttempts = (req, res) => {
       });
     }
 
-    // Busca o usuário
     const user = users.find(u => u.email === email);
 
     if (!user) {
@@ -236,8 +218,6 @@ const resetAttempts = (req, res) => {
       });
     }
 
-    // Reseta as tentativas
-    // As tentativas são armazenadas por username, então precisamos usar o username do usuário encontrado
     loginAttempts.delete(user.username);
 
     return res.status(200).json({

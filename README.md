@@ -145,14 +145,14 @@ A API vem com três usuários pré-configurados:
 
 ### Teste 1: Login Válido
 ```bash
-curl -X POST http://localhost:3000/api/login \
+curl -X POST http://localhost:3001/api/login \
   -H "Content-Type: application/json" \
   -d '{"username": "marcelo.salmeron", "password": "123456"}'
 ```
 
 ### Teste 2: Login Inválido
 ```bash
-curl -X POST http://localhost:3000/api/login \
+curl -X POST http://localhost:3001/api/login \
   -H "Content-Type: application/json" \
   -d '{"username": "usuario", "password": "senhaerrada"}'
 ```
@@ -162,14 +162,14 @@ Execute o teste 2 três vezes consecutivas para bloquear a conta.
 
 ### Teste 4: Esqueci Minha Senha
 ```bash
-curl -X POST http://localhost:3000/api/forgot-password \
+curl -X POST http://localhost:3001/api/forgot-password \
   -H "Content-Type: application/json" \
   -d '{"email": "usuario@teste.com"}'
 ```
 
 ### Teste 5: Reset de Tentativas
 ```bash
-curl -X POST http://localhost:3000/api/reset-attempts \
+curl -X POST http://localhost:3001/api/reset-attempts \
   -H "Content-Type: application/json" \
   -d '{"email": "usuario@teste.com"}'
 ```

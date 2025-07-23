@@ -8,7 +8,7 @@ const swaggerJsdoc = require('swagger-jsdoc');
 const loginRoutes = require('./routes/loginRoutes');
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 3001;
 
 // Configuração do Swagger
 const swaggerOptions = {
