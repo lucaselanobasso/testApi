@@ -62,5 +62,18 @@ describe('Login', () => {
       expect(response.body.success).to.be.true;
       expect(response.body.message).to.match(/email.*enviado/i);
     });
+    it("Esqueci minha senha - deve retornar 400 ao enviar e-mail inválido", async () => {
+      const response = await request('http://localhost:3001')
+        .post('/api/forgot-password')
+        .set('Content-Type', 'application/json')
+        .send({
+          email: 'emailinvalido'
+        });
+      expect(response.status).to.equal(400);
+      expect(response.body).to.have.property('success').that.is.a('boolean');
+      expect(response.body).to.have.property('message').that.is.a('string');
+      expect(response.body.success).to.be.false;
+      expect(response.body.message).to.match(/email.*inválido/i);
+    });
   })
 })
