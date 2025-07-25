@@ -1,0 +1,39 @@
+name: Test and Publish Report to Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  test-and-publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run tests and generate mochawesome report
+        run: npm test
+
+      - name: Prepare docs folder
+        run: |
+          mkdir -p docs
+          cp mochawesome-report/mochawesome.html docs/index.html
+
+      - name: Commit and push report to docs
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add docs/index.html
+          git commit -m 'Atualiza relatório de testes [skip ci]' || echo 'Nada para commitar'
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
