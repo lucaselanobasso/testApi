@@ -211,10 +211,16 @@ testApi/
 
 ## 🔧 Tecnologias Utilizadas
 
+
 <p align="left">
+  <img src="https://img.shields.io/badge/Node.js-339933?logo=node.js&logoColor=white" alt="Node.js"/>
   <img src="https://img.shields.io/badge/Express.js-000?logo=express&logoColor=white" alt="Express.js"/>
   <img src="https://img.shields.io/badge/Swagger-85EA2D?logo=swagger&logoColor=black" alt="Swagger"/>
   <img src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black" alt="JavaScript"/>
+  <img src="https://img.shields.io/badge/Mocha-8D6748?logo=mocha&logoColor=white" alt="Mocha"/>
+  <img src="https://img.shields.io/badge/Chai-A30701?logo=chai&logoColor=white" alt="Chai"/>
+  <img src="https://img.shields.io/badge/Mochawesome-00796B?logo=mochawesome&logoColor=white" alt="Mochawesome"/>
+  <img src="https://img.shields.io/badge/Supertest-222?logo=supertest&logoColor=white" alt="Supertest"/>
   <img src="https://img.shields.io/badge/CORS-00599C?logo=cloudflare&logoColor=white" alt="CORS"/>
   <img src="https://img.shields.io/badge/Helmet-233056?logo=helmet&logoColor=white" alt="Helmet"/>
   <img src="https://img.shields.io/badge/Rate%20Limit-6D6D6D?logo=clockify&logoColor=white" alt="Express Rate Limit"/>
