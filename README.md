@@ -2,7 +2,18 @@
 
 Uma API REST simples de login desenvolvida em JavaScript com Express para estudos de teste de software.
 
-## 🎯 Objetivo
+## � Novidades
+
+- Testes automatizados para a funcionalidade "Esqueci minha senha" (incluindo casos de e-mail inválido)
+- Mudança da porta padrão para `3001` (antes era 3000)
+- Integração com GitHub Actions: pipeline automatizado que executa os testes e publica o relatório no GitHub Pages
+
+### 📊 Relatório de Testes Online
+Acesse o relatório mais recente dos testes automatizados:
+
+👉 [Relatório de Testes - GitHub Pages](https://marcelo-om30.github.io/testApi/)
+
+## �🎯 Objetivo
 
 Esta API foi criada especificamente para estudos de teste de software, incluindo cenários de:
 - Login com sucesso
@@ -46,6 +57,7 @@ npm install
 
 ## 🏃‍♂️ Como Executar
 
+
 ### Desenvolvimento (com auto-reload)
 ```bash
 npm run dev
@@ -56,7 +68,7 @@ npm run dev
 npm start
 ```
 
-O servidor estará disponível em: `http://localhost:3000`
+O servidor estará disponível em: `http://localhost:3001`
 
 ## 📚 Documentação da API
 
@@ -143,6 +155,7 @@ A API vem com três usuários pré-configurados:
 
 ## 🧪 Cenários de Teste
 
+
 ### Teste 1: Login Válido
 ```bash
 curl -X POST http://localhost:3001/api/login \
@@ -160,14 +173,21 @@ curl -X POST http://localhost:3001/api/login \
 ### Teste 3: Bloqueio de Conta
 Execute o teste 2 três vezes consecutivas para bloquear a conta.
 
-### Teste 4: Esqueci Minha Senha
+### Teste 4: Esqueci Minha Senha (e-mail válido)
 ```bash
 curl -X POST http://localhost:3001/api/forgot-password \
   -H "Content-Type: application/json" \
   -d '{"email": "usuario@teste.com"}'
 ```
 
-### Teste 5: Reset de Tentativas
+### Teste 5: Esqueci Minha Senha (e-mail inválido)
+```bash
+curl -X POST http://localhost:3001/api/forgot-password \
+  -H "Content-Type: application/json" \
+  -d '{"email": "emailinvalido"}'
+```
+
+### Teste 6: Reset de Tentativas
 ```bash
 curl -X POST http://localhost:3001/api/reset-attempts \
   -H "Content-Type: application/json" \
@@ -191,9 +211,17 @@ testApi/
 
 ## 🔧 Tecnologias Utilizadas
 
+<p align="left">
+  <img src="https://img.shields.io/badge/Express.js-000?logo=express&logoColor=white" alt="Express.js"/>
+  <img src="https://img.shields.io/badge/Swagger-85EA2D?logo=swagger&logoColor=black" alt="Swagger"/>
+  <img src="https://img.shields.io/badge/JavaScript-F7DF1E?logo=javascript&logoColor=black" alt="JavaScript"/>
+  <img src="https://img.shields.io/badge/CORS-00599C?logo=cloudflare&logoColor=white" alt="CORS"/>
+  <img src="https://img.shields.io/badge/Helmet-233056?logo=helmet&logoColor=white" alt="Helmet"/>
+  <img src="https://img.shields.io/badge/Rate%20Limit-6D6D6D?logo=clockify&logoColor=white" alt="Express Rate Limit"/>
+</p>
+
 - **Express.js** - Framework web
-- **Swagger UI Express** - Documentação da API
-- **Swagger JSDoc** - Geração de documentação
+- **Swagger UI Express** / **Swagger JSDoc** - Documentação da API
 - **CORS** - Cross-Origin Resource Sharing
 - **Helmet** - Segurança HTTP
 - **Express Rate Limit** - Limitação de taxa
