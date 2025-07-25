@@ -32,7 +32,8 @@ jobs:
       - name: Prepare docs folder
         run: |
           mkdir -p docs
-          cp mochawesome-report/mochawesome.html docs/index.html
+          cp -r mochawesome-report/* docs/
+          mv docs/mochawesome.html docs/index.html
 
       - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v4
